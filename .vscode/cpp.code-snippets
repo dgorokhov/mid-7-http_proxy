@@ -1,0 +1,531 @@
+{
+  "Class with Rule of 5 (class2)": {
+    "prefix": "class2",
+    "description": "Фрагмент кода для класса (Rule of 5)",
+    "body": [
+      "class ${1:MyClass}",
+      "{",
+      "public:",
+      "    $1();",
+      "    ~$1() = default;",
+      "    $1(const $1& name);",
+      "    $1& operator=(const $1& name);",
+      "    $1($1&& name);",
+      "    $1& operator=($1&& name);",
+      "",
+      "private:",
+      "    ${TM_SELECTED_TEXT}$0",
+      "};",
+      "",
+      "$1::$1()",
+      "{",
+      "}",
+      "",
+      "$1::$1(const $1& name)",
+      "{",
+      "}",
+      "",
+      "$1& $1::operator=(const $1& name)",
+      "{",
+      "    if (&name == this) return *this;",
+      "    temp(name);",
+      "    swap(name);",
+      "    return *this;",
+      "}",
+      "",
+      "$1::$1($1&& name)",
+      "{",
+      "}",
+      "",
+      "$1& $1::operator=($1&& name)",
+      "{",
+      "    if (&name == this) return *this;",
+      "    // ...moving object",
+      "    return *this;",
+      "}"
+    ]
+  },
+
+  "Class Inline (classi)": {
+    "prefix": "classi",
+    "description": "Фрагмент кода для класса со встроенным конструктором/деструктором",
+    "body": [
+      "class ${1:MyClass}",
+      "{",
+      "public:",
+      "    $1()",
+      "    {",
+      "    }",
+      "    ~$1()",
+      "    {",
+      "    }",
+      "",
+      "private:",
+      "    ${TM_SELECTED_TEXT}$0",
+      "};"
+    ]
+  },
+
+  "Class Standard (class)": {
+    "prefix": "class",
+    "description": "Фрагмент кода для стандартного класса",
+    "body": [
+      "class ${1:MyClass}",
+      "{",
+      "public:",
+      "    $1();",
+      "    ~$1();",
+      "",
+      "private:",
+      "    ${TM_SELECTED_TEXT}$0",
+      "};",
+      "",
+      "$1::$1()",
+      "{",
+      "}",
+      "",
+      "$1::~$1()",
+      "{",
+      "}"
+    ]
+  },
+
+  "Constructor (ctor)": {
+    "prefix": "ctor",
+    "description": "Фрагмент кода для конструктора",
+    "body": [
+      "${1:TypeNamePlaceholder}()",
+      "{",
+      "    $0",
+      "}"
+    ]
+  },
+
+  "Do-While Loop (do)": {
+    "prefix": "do",
+    "description": "Фрагмент кода для цикла do...while",
+    "body": [
+      "do",
+      "{",
+      "    ${TM_SELECTED_TEXT}$0",
+      "} while (${1:true});"
+    ]
+  },
+
+  "Else Statement (else)": {
+    "prefix": "else",
+    "description": "Фрагмент кода для инструкции else",
+    "body": [
+      "else",
+      "{",
+      "    ${TM_SELECTED_TEXT}$0",
+      "}"
+    ]
+  },
+
+  "Enum Class (enumclass)": {
+    "prefix": "enumclass",
+    "description": "Фрагмент кода для класса перечисления",
+    "body": [
+      "enum class ${1:MyEnumClass}",
+      "{",
+      "    ${TM_SELECTED_TEXT}$0",
+      "};"
+    ]
+  },
+
+  "For Each Loop (foreach)": {
+    "prefix": "foreach",
+    "description": "Фрагмент кода для инструкции foreach (C++/CLI style)",
+    "body": [
+      "for each (${1:object} ${2:var} in ${3:collection_to_loop})",
+      "{",
+      "    ${TM_SELECTED_TEXT}$0",
+      "}"
+    ]
+  },
+
+  "For Loop Index (for)": {
+    "prefix": "for",
+    "description": "Фрагмент кода для классического цикла for с индексом",
+    "body": [
+      "for (${1:size_t} ${2:i} = 0; $2 < ${3:length}; ++$2)",
+      "{",
+      "    ${TM_SELECTED_TEXT}$0",
+      "}"
+    ]
+  },
+
+  "Range-based For Loop (rfor)": {
+    "prefix": "rfor",
+    "description": "Фрагмент кода для цикла range-based for",
+    "body": [
+      "for (auto& ${1:i} : ${2:v})",
+      "{",
+      "    ${TM_SELECTED_TEXT}$0",
+      "}"
+    ]
+  },
+
+  "If-Else Statement (ifelse)": {
+    "prefix": "ifelse",
+    "description": "Фрагмент кода для инструкции ifelse",
+    "body": [
+      "if (${1:true}) {",
+      "    ${TM_SELECTED_TEXT}$0",
+      "} else if (${2:true}) {",
+      "} else {",
+      "}"
+    ]
+  },
+
+  "If Statement (if)": {
+    "prefix": "if",
+    "description": "Фрагмент кода для инструкции if",
+    "body": [
+      "if (${1:true})",
+      "{",
+      "    ${TM_SELECTED_TEXT}$0",
+      "}"
+    ]
+  },
+
+  "Namespace (namespace)": {
+    "prefix": "namespace",
+    "description": "Фрагмент кода для пространства имен",
+    "body": [
+      "namespace ${1:MyNamespace}",
+      "{",
+      "    ${TM_SELECTED_TEXT}$0",
+      "}"
+    ]
+  },
+
+  "Ifdef Preprocessor (ifdef)": {
+    "prefix": "#ifdef",
+    "description": "Фрагмент кода для #ifdef",
+    "body": [
+      "#ifdef ${1:DEBUG}",
+      "${TM_SELECTED_TEXT}$0",
+      "#endif // $1"
+    ]
+  },
+
+  "Ifndef Preprocessor (ifndef)": {
+    "prefix": "#ifndef",
+    "description": "Фрагмент кода для #ifndef",
+    "body": [
+      "#ifndef ${1:1}",
+      "#define $1",
+      "${TM_SELECTED_TEXT}$0",
+      "#endif // !$1"
+    ]
+  },
+
+  "If Preprocessor (if preproc)": {
+    "prefix": "#if",
+    "description": "Фрагмент кода для #if",
+    "body": [
+      "#if ${1:0}",
+      "${TM_SELECTED_TEXT}$0",
+      "#endif // $1"
+    ]
+  },
+
+  "Region (region)": {
+    "prefix": "#region",
+    "description": "Фрагмент кода для #region",
+    "body": [
+      "#pragma region ${1:MyRegion}",
+      "${TM_SELECTED_TEXT}$0",
+      "#pragma endregion"
+    ]
+  },
+
+  "Destructor (dtor)": {
+    "prefix": "~",
+    "description": "Фрагмент кода для деструктора",
+    "body": [
+      "~${1:TypeNamePlaceholder}()",
+      "{",
+      "    $0",
+      "}"
+    ]
+  },
+
+  "Struct (struct)": {
+    "prefix": "struct",
+    "description": "Фрагмент кода для struct",
+    "body": [
+      "struct ${1:MyStruct}",
+      "{",
+      "    ${TM_SELECTED_TEXT}$0",
+      "};"
+    ]
+  },
+
+  "Switch Statement (switch)": {
+    "prefix": "switch",
+    "description": "Фрагмент кода для инструкции switch",
+    "body": [
+      "switch (${1:switch_on}) {",
+      "    case $1:",
+      "        break;",
+      "    default:",
+      "        break;",
+      "}"
+    ]
+  },
+
+  "Try-Catch Block (try)": {
+    "prefix": "try",
+    "description": "Фрагмент кода для try catch",
+    "body": [
+      "try",
+      "{",
+      "    ${TM_SELECTED_TEXT}",
+      "}",
+      "catch (const std::exception&)",
+      "{",
+      "    $0",
+      "}"
+    ]
+  },
+
+  "Union (union)": {
+    "prefix": "union",
+    "description": "Фрагмент кода для объединения",
+    "body": [
+      "union ${1:MyUnion}",
+      "{",
+      "    ${TM_SELECTED_TEXT}$0",
+      "};"
+    ]
+  },
+
+  "While Loop (while)": {
+    "prefix": "while",
+    "description": "Фрагмент кода для цикла while",
+    "body": [
+      "while (${1:true})",
+      "{",
+      "    ${TM_SELECTED_TEXT}$0",
+      "}"
+    ]
+  }
+
+  "Ifdef Statement (ifdef)": {
+    "prefix": "ifdef",
+    "description": "Классическая обертка #ifdef ... #endif",
+    "body": [
+      "#ifdef ${1:DEBUG}",
+      "#else",
+      "\t${TM_SELECTED_TEXT}$0",
+      "#endif // $1"
+    ]
+  },
+
+  "Ifndef Statement (ifndef)": {
+    "prefix": "ifndef",
+    "description": "Классическая обертка #ifndef ... #endif",
+    "body": [
+      "#ifndef ${1:SYMBOL}",
+      "#define $1",
+      "#else",
+      "\t${TM_SELECTED_TEXT}$0",
+      "#endif // $1"
+    ]
+  },
+
+  "Header Guard (ifndef_guard)": {
+    "prefix": "hguard",
+    "description": "Умный Header Guard, автоматически берущий имя текущего файла",
+    "body": [
+      "#ifndef ${TM_FILENAME_BASE/(.*)/${1:/upcase}_HPP/}",
+      "#define ${TM_FILENAME_BASE/(.*)/${1:/upcase}_HPP/}",
+      "",
+      "${TM_SELECTED_TEXT}$0",
+      "",
+      "#endif // ${TM_FILENAME_BASE/(.*)/${1:/upcase}_HPP/}"
+    ]
+  },
+
+  "Template Function (template_func)": {
+    "prefix": "tempf",
+    "description": "Шаблонная функция (template <typename T>)",
+    "body": [
+      "template <typename ${1:T}>",
+      "${2:void} ${3:FunctionName}(${1:T} ${4:arg})",
+      "{",
+      "\t$0",
+      "return ...", 
+      "}"
+    ]
+  },
+
+  "Template Class (template_class)": {
+    "prefix": "tempc",
+    "description": "Шаблонный класс/структура (template <typename T>)",
+    "body": [
+      "template <typename ${1:T}>",
+      "class ${2:MyTemplateClass}",
+      "{",
+      "public:",
+      "\t${2:MyTemplateClass}() = default;",
+      "\t~$2() = default;",
+      "",
+      "private:",
+      "\t${1:T} data_;$0",
+      "};"
+    ]
+  },
+
+  "Template Concept / Multi-typename (template_multi)": {
+    "prefix": "tempm",
+    "description": "Шаблон с несколькими параметрами типов",
+    "body": [
+      "template <typename ${1:T}, typename ${2:U}>",
+      "$0"
+    ]
+  }
+
+
+  "Unique Pointer with Custom Deleter (unique_deleter)": {
+    "prefix": "uniqd",
+    "description": "std::unique_ptr с кастомным удалителем (лямбдой)",
+    "body": [
+      "auto deleter = []( ${1:Type}* ptr ) {",
+      "\t// ${2:логика удаления (например, close_handle(ptr) или free)}",
+      "\tdelete ptr;",
+      "};",
+      "std::unique_ptr<${1:Type}, decltype(deleter)> ${3:var}(new ${1:Type}($4), deleter);$0"
+    ]
+  },
+
+  "Shared Pointer with Custom Deleter (shared_deleter)": {
+    "prefix": "shard",
+    "description": "std::shared_ptr с кастомным удалителем (лямбдой)",
+    "body": [
+      "auto deleter = []( ${1:Type}* ptr ) {",
+      "\t// ${2:логика удаления}",
+      "\tdelete ptr;",
+      "};",
+      "std::shared_ptr<${1:Type}> ${3:var}(new ${1:Type}($4), deleter);$0"
+    ]
+  },
+
+  "Standard make_unique": {
+    "prefix": "makeu",
+    "description": "Стандартное создание std::unique_ptr через std::make_unique",
+    "body": [
+      "auto ${1:var} = std::make_unique<${2:Type}>($3);$0"
+    ]
+  },
+
+  "Standard make_shared": {
+    "prefix": "ms",
+    "description": "Стандартное создание std::shared_ptr через std::make_shared",
+    "body": [
+      "auto ${1:var} = std::make_shared<${2:Type}>($3);$0"
+    ]
+  }
+
+
+  "FORCE_INLINE Definition (macro_force_inline)": {
+    "prefix": "def_forceinline",
+    "description": "Кроссплатформенное определение макроса FORCE_INLINE (GCC/Clang/MSVC)",
+    "body": [
+      "#if defined(__GNUC__) || defined(__clang__)",
+      "  #define FORCE_INLINE inline __attribute__((always_inline))",
+      "#else",
+      "  #define FORCE_INLINE __forceinline",
+      "#endif",
+      "$0"
+    ]
+  },
+
+  "FORCE_INLINE Function (force_inline)": {
+    "prefix": "finline",
+    "description": "Объявление функции с принудительным инлайном (FORCE_INLINE)",
+    "body": [
+      "FORCE_INLINE ${1:void} ${2:FunctionName}($3)",
+      "{",
+      "\t${TM_SELECTED_TEXT}$0",
+      "}"
+    ]
+  }
+
+
+  "Include All STL Branches": {
+    "prefix": "#inc_all",
+    "description": "Вставить все инклуды STL по отраслям (C++23 включительно)",
+    "body": [
+      "// Контейнеры и представления",
+      "#include <vector>",
+      "#include <span>",
+      "#include <array>",
+      "#include <string>",
+      "#include <string_view>",
+      "#include <list>",
+      "#include <forward_list>",
+      "#include <deque>",
+      "#include <map>",
+      "#include <set>",
+      "#include <unordered_map>",
+      "#include <unordered_set>",
+      "#include <queue>",
+      "#include <stack>",
+      "#include <mdspan>",
+      "#include <flat_map>",
+      "#include <flat_set>",
+      "",
+      "// Алгоритмы, диапазоны и корутины",
+      "#include <algorithm>",
+      "#include <ranges>",
+      "#include <numeric>",
+      "#include <functional>",
+      "#include <generator>",
+      "",
+      "// Многопоточность и асинхронность",
+      "#include <thread>",
+      "#include <mutex>",
+      "#include <shared_mutex>",
+      "#include <atomic>",
+      "#include <future>",
+      "#include <condition_variable>",
+      "#include <latch>",
+      "#include <barrier>",
+      "#include <semaphore>",
+      "",
+      "// Память и утилиты типов",
+      "#include <memory>",
+      "#include <memory_resource>",
+      "#include <variant>",
+      "#include <optional>",
+      "#include <any>",
+      "#include <tuple>",
+      "#include <utility>",
+      "#include <expected>",
+      "#include <stdfloat>",
+      "",
+      "// Ввод-вывод, файлы и логирование",
+      "#include <filesystem>",
+      "#include <iostream>",
+      "#include <fstream>",
+      "#include <sstream>",
+      "#include <format>",
+      "#include <print>",
+      "#include <spanstream>",
+      "#include <stacktrace>",
+      "",
+      "// Математика и время",
+      "#include <chrono>",
+      "#include <random>",
+      "#include <cmath>",
+      "#include <numbers>",
+      "$0"
+    ]
+  },
+
+}
+

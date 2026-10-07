@@ -1,0 +1,74 @@
+Формат файла сниппетов — это обычный JSON, где каждый сниппет представляет собой объект с уникальным названием.
+Вот универсальный шаблон. Скопируйте этот текст в ваш созданный файл (my.code-snippets или bash.json):
+
+{
+  "My Custom Snippet Name": {
+    "prefix": "my-shortcut",
+    "body": [
+      "line 1 of your code",
+      "line 2 with a ${1:variable}",
+      "line 3 with custom cursor position $0"
+    ],
+    "description": "Optional description of what this snippet does"
+  }
+}
+
+## 📋 Разбор ключевых полей:
+
+* "My Custom Snippet Name" — название сниппета, которое будет отображаться в подсказках VS Code.
+* "prefix" — это самое главное поле. Слово-триггер (сокращение). Как только вы наберете в редакторе my-shortcut и нажмете Tab или Enter, вместо этого слова подставится ваш большой кусок кода.
+* "body" — сам код заготовки. Каждая строка кода пишется в отдельных двойных кавычках и разделяется запятой.
+* "description" — краткое описание, которое всплывает при выборе сниппета (можно удалить, если не нужно).
+
+------------------------------
+## ⚡ Пример готового сниппета для вашего Bash-меню
+Чтобы вам было проще разобраться, вот готовый рабочий пример. Если вы вставите этот JSON в файл сниппетов, то при вводе слова bashmenu в любом файле развернется весь наш прошлый Bash-скрипт:
+
+{
+  "Interactive Bash Menu": {
+    "prefix": "bashmenu",
+    "body": [
+      "#!/bin/bash",
+      "",
+      "MENU_FILE=\"${1:menu.txt}\"",
+      "",
+      "if [ ! -f \"\\$MENU_FILE\" ]; then",
+      "    echo \"Error: Menu file '\\$MENU_FILE' not found.\"",
+      "    exit 1",
+      "fi",
+      "",
+      "lines=()",
+      "while IFS= read -r line || [[ -n \"\\$line\" ]]; do",
+      "    [[ -z \"\\$line\" ]] && continue",
+      "    lines+=(\"\\$line\")",
+      "done < \"\\$MENU_FILE\"",
+      "",
+      "echo \"=== Menu ===\"",
+      "for i in \"\\${!lines[@]}\"; do",
+      "    short_name=\"\\${lines[\\$i]%%,*}\"",
+      "    echo \"[\\$i] \\$short_name\"",
+      "done",
+      "echo \"============\"",
+      "",
+      "read -p \"Choose an option (number): \" choice",
+      "",
+      "if ! [[ \"\\$choice\" =~ ^[0-9]+\\$ ]] || [ \"\\$choice\" -ge \"\\${#lines[@]}\" ]; then",
+      "    echo \"Error: Invalid selection.\"",
+      "    exit 1",
+      "fi",
+      "",
+      "selected_line=\"\\${lines[\\$choice]}\"",
+      "command_to_run=\"\\${selected_line#*,}\"",
+      "",
+      "echo \"Running: \\$command_to_run\"",
+      "echo \"------------------------\"",
+      "eval \"\\$command_to_run\"",
+      "$0"
+    ],
+    "description": "Inserts the custom interactive Bash menu script"
+  }
+}
+
+(Обратите внимание: все знаки $ и внутренние кавычки " в теле body автоматически экранированы слэшами \$ и \", чтобы VS Code не перепутал их со своими внутренними переменными) [1].
+Какой именно скрипт или шаблон кода вы хотите перевести в формат сниппета? Присылайте его сюда, и я подготовлю для вас готовый JSON!
+

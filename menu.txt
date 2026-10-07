@@ -1,0 +1,7 @@
+conan install missing,conan install . --build=missing -s build_type=Debug
+cmake-preset,cmake --preset conan-debug
+build all,cmake --build --preset conan-debug  
+build target,read -p "Target: " choice;cmake --build build --target $choice
+build sanitizer,cmake -B build -DCMAKE_BUILD_TYPE=Debug -DENABLE_SANITIZER=ON; cmake --build build
+run with jemalloc,read -p "Run: " choice;MALLOC_CONF=prof_leak:true,lg_prof_sample:0,prof_final:true,prof:true ./build/$choice
+
