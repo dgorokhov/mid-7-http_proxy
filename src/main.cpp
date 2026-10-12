@@ -119,12 +119,14 @@ awaitable<void> session(tcp::socket client_socket, io_service& io_service)
         }
 
     } catch (const boost::system::system_error& e) {
-        if (e.code() != boost::asio::error::eof) {
+        // EOF или Connection reset — стандартные ситуации при закрытии сокетов клиентом или сайтом
+        if (e.code() != boost::asio::error::eof && e.code() != boost::asio::error::connection_reset) {
             std::println(stderr, "Session system error: {}", e.what());
         }
     } catch (const std::exception& e) {
         std::println(stderr, "Session exception: {}", e.what());
     }
+
 
     // закроем сокеты ввно ( ТЗ)
     error_code ec;
