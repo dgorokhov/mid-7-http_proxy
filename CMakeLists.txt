@@ -11,31 +11,27 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     add_compile_options(-fmax-errors=3)
 endif()
 
-set(CMAKE_PREFIX_PATH /usr/local/asio)
+# Ищем необходимые библиотеки с флагом CONFIG для интеграции с Conan
+find_package(Boost REQUIRED CONFIG)
+find_package(GTest REQUIRED CONFIG)
 
-# Ищем необходимые библиотеки
-find_package(Boost REQUIRED)
-find_package(GTest REQUIRED)
-file(GLOB HEADER_FILES "${CMAKE_SOURCE_DIR}/include/*.hpp")
+# Ищем все заголовочные файлы проекта (поддерживаем и .h, и .hpp)
+file(GLOB HEADER_FILES "${CMAKE_SOURCE_DIR}/include/*.h" "${CMAKE_SOURCE_DIR}/include/*.hpp")
 
-
-# Создаём статическую библиотеку
+# Создаём статическую библиотеку (БЕЗ main.cpp, чтобы тесты не конфликтовали!)
 add_library(${PROJECT_NAME}_imp STATIC
-  "${CMAKE_SOURCE_DIR}/src/main.cpp"
   "${CMAKE_SOURCE_DIR}/src/headers.cpp"
-  ${HEADER_FILES})
+  ${HEADER_FILES}
+)
 
-# Добавляем в проект используемые сторонние библиотеки
+# Настраиваем инклюды и линковку для библиотеки
 target_include_directories(${PROJECT_NAME}_imp PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${Boost_INCLUDE_DIRS}
 )
-target_link_libraries(${PROJECT_NAME}_imp PRIVATE ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_imp PUBLIC Boost::boost)
 
-# Создаём исполняемый таргет и линкуем к нему статическую библиотеку
-add_executable(${PROJECT_NAME}
-  "${CMAKE_SOURCE_DIR}/src/main.cpp"
-  "${CMAKE_SOURCE_DIR}/src/headers.cpp")
+# Создаём исполняемый таргет сервера
+add_executable(${PROJECT_NAME} "${CMAKE_SOURCE_DIR}/src/main.cpp")
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_imp)
 
 #
@@ -46,7 +42,13 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_imp)
 file(GLOB TEST_SRC_FILES "${CMAKE_SOURCE_DIR}/tests/*.cpp")
 
 add_executable(unit_tests "${TEST_SRC_FILES}")
-target_link_libraries(unit_tests PRIVATE ${PROJECT_NAME}_imp GTest::GTest GTest::Main)
+
+# Линкуем библиотеку проекта и корректные таргеты GTest от Conan (в нижнем регистре)
+target_link_libraries(unit_tests PRIVATE 
+    ${PROJECT_NAME}_imp 
+    GTest::gtest 
+    GTest::gtest_main
+)
 
 # Включаем тестирование
 enable_testing()
